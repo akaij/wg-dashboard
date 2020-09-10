@@ -5,7 +5,7 @@ DNS = {{ server_virtual_ip }}
 
 [Peer]
 PublicKey = {{ server_public_key }}
-Endpoint = {{ server_endpoint }}:{{ server_port }}
+Endpoint = vpn.akay.me:{{ server_port }}
 AllowedIPs = {{ allowed_ips | join(",") }}
 
 # This is for if you're behind a NAT and
