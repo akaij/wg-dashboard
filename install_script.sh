@@ -15,7 +15,8 @@ if [[ "$(lsb_release -is)" == "Raspbian" ]]; then
 	apt-get upgrade -y
 
 	# install required build tools
-	apt-get install -y raspberrypi-kernel-headers libmnl-dev libelf-dev build-essential ufw
+	#apt-get install -y raspberrypi-kernel-headers libmnl-dev libelf-dev build-essential ufw
+	apt-get install -y raspberrypi-kernel-headers libmnl-dev libelf-dev build-essential
 	cd /opt
 	# get the latest stable snapshot
 	curl -L https://git.zx2c4.com/WireGuard/snapshot/WireGuard-0.0.20190601.tar.xz --output WireGuard.tar.xz
@@ -49,7 +50,8 @@ elif [[ "$(lsb_release -is)" == "Debian" ]]; then
 		# update repository
 		apt update
 		# install linux kernel headers
-		apt-get install -y "linux-headers-$(uname -r)" ufw
+		#apt-get install -y "linux-headers-$(uname -r)" ufw
+		apt-get install -y "linux-headers-$(uname -r)"
 		# install wireguard
 		apt install -y wireguard
 		# update again (needed because of the linux kernel headers)
@@ -109,13 +111,13 @@ systemctl enable wg-dashboard
 systemctl start wg-dashboard
 
 # enable port 22 in firewall for ssh
-ufw allow 22
+# ufw allow 22
 # enable firewall
-ufw --force enable
+# ufw --force enable
 # enable port 58210 in firewall for wireguard
-ufw allow 58210
+# ufw allow 58210
 # enable port 53 in firewall for dns
-ufw allow in on wg0 to any port 53
+# ufw allow in on wg0 to any port 53
 
 # make and enter coredns folder
 mkdir -p /etc/coredns
