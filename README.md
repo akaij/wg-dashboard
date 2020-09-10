@@ -2,14 +2,6 @@
 	<img src="/dev/wg-dashboard-logo.png" />
 </p>
 
-**THIS PROJECT IS UNMAINTAINED**
-
-If you want to take over development please contact us. In the meantime we recommend having a look at:
-
-- https://github.com/tailscale/tailscale
-- https://github.com/subspacecommunity/subspace
-- https://github.com/EmbarkStudios/wg-ui
-
 # wg-dashboard
 
 ![Dashboard](dev/dashboard.png)
@@ -26,12 +18,8 @@ We made this dashboard to simplify the setup of WireGuard. Instead of having to 
 
 ## Requirements
 
-* Ubuntu 18.04, Raspbian Buster or Debian 10
+* Arch Linux
 * root user
-
-## Sponsoring
-
-Thanks to [Team Centric Software](http://tcs.de) for sponsoring initial development
 
 ## Installation
 
@@ -42,7 +30,7 @@ With our install script all the needed packages for WireGuard and wg-dashboard w
 1. Connect to your server and open a ssh tunnel from remote to local on port 3000
 	* `ssh -L 3000:localhost:3000 <your_vps_user>@<your_vps_ip>`
 2. Run the install script
-	* `curl https://raw.githubusercontent.com/wg-dashboard/wg-dashboard/master/install_script.sh | sudo bash`
+	* `curl https://raw.githubusercontent.com/akaij/wg-dashboard/master/install_script.sh | sudo bash`
 3. Go to [http://localhost:3000](http://localhost:3000) in your favorite browser
 4. Enjoy
 
@@ -83,27 +71,3 @@ With our install script all the needed packages for WireGuard and wg-dashboard w
 	* DNS Server
 	* DNS over TLS
 * Clean GUI
-
-## Looking for a cheap VPS?
-
-You are looking for a cheap VPS to run WireGuard on? Check these out:
-
--   [Hetzner](https://www.hetzner.com/cloud)
-
-#### Get free \$50 credit when you sign up on either of these!
-
--   [DigitalOcean](https://m.do.co/c/8d5e8ac9b8f1) (affiliate)
-
-## Disclaimer
-
-We are not, in any way, affiliated with WireGuard or their creators.
-
-## Donations
-
-If you would like support this project, please consider donating:
-
--   Bitcoin: `17WesqNX7ozumrufLWhukDCvwaiywHxny3`
--   Ethereum: `0x5d7836D6d3A10b1b970fb45E8f571A0cA3cE4f57`
--   Bitcoin Cash: `qr3vcp6zngks2mc42vpyakq76wlpngerj5z0e3pq9l`
--   Stellar: `GAA2EKSDAAUNM4GVTIGM7FKJSXCGUKNZKUNURHIUCHJ56M4ITB36F55K`
--   USDPAX: `0x5d7836d6d3a10b1b970fb45e8f571a0ca3ce4f57`
