@@ -7,10 +7,10 @@ ListenPort = {{ port }}
 PrivateKey = {{ private_key }}
 
 {% for device in peers -%}
-	{% if device.active -%}
-	[WireGuardPeer]
-	# {{ device.device }}
-	PublicKey = {{ device.public_key }}
-	AllowedIPs = {{ device.virtual_ip }}/32
-	{%- endif %}
+{% if device.active -%}
+[WireGuardPeer]
+# {{ device.device }}
+PublicKey = {{ device.public_key }}
+AllowedIPs = {{ device.virtual_ip }}/32
+{%- endif %}
 {% endfor %}
