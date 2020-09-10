@@ -136,7 +136,7 @@ exports.getNetworkAdapter = cb => {
 
 exports.getNetworkIP = cb => {
 	child_process.exec(
-		"ifconfig eth0 | grep inet | head -n 1 | xargs | cut -d ' ' -f 2",
+		"ip address show dev eth0 | grep inet | head -n 1 | xargs | cut -d ' ' -f 2",
 		(err, stdout, stderr) => {
 			if (err || stderr) {
 				cb(err);
