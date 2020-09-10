@@ -57,7 +57,7 @@ exports.loadServerConfig = cb => {
 						port: "58210",
 						dns: "1.1.1.1",
 						network_adapter: network_adapter,
-						config_path: "/etc/wireguard/wg0.conf",
+						netdev_path: "/etc/systemd/network/99-wg0.netdev",
 						allowed_ips: ["0.0.0.0/0"],
 						peers: [],
 						private_traffic: false,
@@ -122,7 +122,7 @@ exports.loadServerConfig = cb => {
 };
 
 exports.saveWireguardConfig = (server_config, cb) => {
-	const config = nunjucks.render("templates/config_server.njk", {
+	const config = nunjucks.render("templates/config_netdev.njk", {
 		virtual_ip_address: server_config.virtual_ip_address,
 		cidr: server_config.cidr,
 		private_key: server_config.private_key,
@@ -132,7 +132,7 @@ exports.saveWireguardConfig = (server_config, cb) => {
 	});
 
 	// write main config
-	fs.writeFile(server_config.config_path, config, {mode: 0o600}, err => {
+	fs.writeFile(server_config.netdev_path, config, {mode: 0o600}, err => {
 		if (err) {
 			cb(err);
 			return;
