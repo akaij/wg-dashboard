@@ -1,0 +1,10 @@
+[Match]
+Name = wg0
+
+[Network]
+Address = {{ virtual_ip_address }}/{{ cidr }}
+
+LinkLocalAddressing = no
+IPv6AcceptRA = no
+IPForward    = yes
+IPMasquerade = yes
