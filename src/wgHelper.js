@@ -177,43 +177,43 @@ exports.deletePeer = (peer, cb) => {
 };
 
 exports.makeDashboardPrivate = (state, cb) => {
-	child_process.exec(
-		`ufw delete allow 3000 ; ufw deny in on ${state.server_config
-			.network_adapter || "eth0"} to any port 3000`,
-		(err, stdout, stderr) => {
-			if (err || stderr) {
-				cb(err);
-				return;
-			}
+// 	child_process.exec(
+// 		`ufw delete allow 3000 ; ufw deny in on ${state.server_config
+// 			.network_adapter || "eth0"} to any port 3000`,
+// 		(err, stdout, stderr) => {
+// 			if (err || stderr) {
+// 				cb(err);
+// 				return;
+// 			}
 
-			child_process.exec(
-				"ufw allow in on wg0 to any port 3000",
-				(err, stdout, stderr) => {
-					if (err || stderr) {
-						cb(err);
-						return;
-					}
+// 			child_process.exec(
+// 				"ufw allow in on wg0 to any port 3000",
+// 				(err, stdout, stderr) => {
+// 					if (err || stderr) {
+// 						cb(err);
+// 						return;
+// 					}
 
-					cb(null, stdout.replace(/\n/, ""));
-				}
-			);
-		}
-	);
+// 					cb(null, stdout.replace(/\n/, ""));
+// 				}
+// 			);
+// 		}
+// 	);
 };
 
 exports.makeDashboardPublic = (state, cb) => {
-	child_process.exec(
-		`ufw allow in on ${state.server_config.network_adapter ||
-			"eth0"} to any port 3000`,
-		(err, stdout, stderr) => {
-			if (err || stderr) {
-				cb(err);
-				return;
-			}
+// 	child_process.exec(
+// 		`ufw allow in on ${state.server_config.network_adapter ||
+// 			"eth0"} to any port 3000`,
+// 		(err, stdout, stderr) => {
+// 			if (err || stderr) {
+// 				cb(err);
+// 				return;
+// 			}
 
-			cb(null, stdout.replace(/\n/, ""));
-		}
-	);
+// 			cb(null, stdout.replace(/\n/, ""));
+// 		}
+// 	);
 };
 
 exports.restartCoreDNS = cb => {
@@ -228,23 +228,23 @@ exports.restartCoreDNS = cb => {
 };
 
 exports.enableUFW = (port, cb) => {
-	child_process.exec(`ufw allow ${port}`, (err, stdout, stderr) => {
-		if (err || stderr) {
-			cb(err);
-			return;
-		}
+// 	child_process.exec(`ufw allow ${port}`, (err, stdout, stderr) => {
+// 		if (err || stderr) {
+// 			cb(err);
+// 			return;
+// 		}
 
-		cb(null);
-	});
+// 		cb(null);
+// 	});
 };
 
 exports.disableUFW = (port, cb) => {
-	child_process.exec(`ufw delete allow ${port}`, (err, stdout, stderr) => {
-		if (err || stderr) {
-			cb(err);
-			return;
-		}
+// 	child_process.exec(`ufw delete allow ${port}`, (err, stdout, stderr) => {
+// 		if (err || stderr) {
+// 			cb(err);
+// 			return;
+// 		}
 
-		cb(null);
-	});
+// 		cb(null);
+// 	});
 };
