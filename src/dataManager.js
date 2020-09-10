@@ -58,6 +58,7 @@ exports.loadServerConfig = cb => {
 						dns: "1.1.1.1",
 						network_adapter: network_adapter,
 						netdev_path: "/etc/systemd/network/99-wg0.netdev",
+						network_path: "/etc/systemd/network/99-wg0.network",
 						allowed_ips: ["0.0.0.0/0"],
 						peers: [],
 						private_traffic: false,
