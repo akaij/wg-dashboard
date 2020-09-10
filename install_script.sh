@@ -4,73 +4,22 @@ set -e
 if [[ "$EUID" -ne 0 ]]; then
 	echo "Sorry, this script must be ran as root"
 	echo "Maybe try this:"
-	echo "curl https://raw.githubusercontent.com/wg-dashboard/wg-dashboard/master/install_script.sh | sudo bash"
+	echo "curl https://raw.githubusercontent.com/akaij/wg-dashboard/master/install_script.sh | sudo bash"
 	exit
 fi
 
 # i = distributor id, s = short, gives us name of the os ("Ubuntu", "Raspbian", ...)
-if [[ "$(lsb_release -is)" == "Raspbian" ]]; then
+if [[ "$(lsb_release -is)" == "Arch" ]]; then
 	# needed for new kernel
-	apt-get update -y
-	apt-get upgrade -y
-
-	# install required build tools
-	#apt-get install -y raspberrypi-kernel-headers libmnl-dev libelf-dev build-essential ufw
-	apt-get install -y raspberrypi-kernel-headers libmnl-dev libelf-dev build-essential
-	cd /opt
-	# get the latest stable snapshot
-	curl -L https://git.zx2c4.com/WireGuard/snapshot/WireGuard-0.0.20190601.tar.xz --output WireGuard.tar.xz
-	# create directory
-	mkdir -p WireGuard
-	# unzip tarball
-	tar xf WireGuard.tar.xz -C WireGuard --strip-components=1
-	# delete tarball
-	rm -f WireGuard.tar.xz
-	# go into source folder
-	cd WireGuard/src
-	# build and install wireguard
-	make
-	make install
+	pacman -Syu --noconfirm
+	# install the latest wireguard tools
+	pacman -S wireguard-tools --noconfirm
 	# go back to home folder
 	cd ~
-elif [[ "$(lsb_release -is)" == "Ubuntu" ]]; then
-	# needed for add-apt-repository
-	apt-get install -y software-properties-common
-	# add wireguard repository to apt
-	add-apt-repository -y ppa:wireguard/wireguard
-	# install wireguard
-	apt-get install -y wireguard
-	# install linux kernel headers
-	apt-get install -y linux-headers-$(uname -r)
-elif [[ "$(lsb_release -is)" == "Debian" ]]; then
-	if [[ "$(lsb_release -rs)" -ge "10" ]]; then
-		# add unstable list
-		echo "deb http://deb.debian.org/debian/ unstable main" > /etc/apt/sources.list.d/unstable.list
-		printf 'Package: *\nPin: release a=unstable\nPin-Priority: 90\n' > /etc/apt/preferences.d/limit-unstable
-		# update repository
-		apt update
-		# install linux kernel headers
-		#apt-get install -y "linux-headers-$(uname -r)" ufw
-		apt-get install -y "linux-headers-$(uname -r)"
-		# install wireguard
-		apt install -y wireguard
-		# update again (needed because of the linux kernel headers)
-		apt-get update && apt-get upgrade
-	else
-		echo "Sorry, your operating system is not supported"
-		exit
-	fi
 else
 	echo "Sorry, your operating system is not supported"
 	exit
 fi
-
-# enable ipv4 packet forwarding
-sysctl -w net.ipv4.ip_forward=1
-echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
-# install nodejs
-curl https://deb.nodesource.com/setup_10.x | bash
-apt-get install -y nodejs
 
 # go into home folder
 cd /opt
@@ -78,7 +27,7 @@ cd /opt
 rm -rf wg-dashboard
 rm -rf wg-dashboard.tar.gz
 # download wg-dashboard latest release
-curl -L https://github.com/$(wget https://github.com/wg-dashboard/wg-dashboard/releases/latest -O - | egrep '/.*/.*/.*tar.gz' -o) --output wg-dashboard.tar.gz
+curl -L https://github.com/$(wget https://github.com/akaij/wg-dashboard/releases/latest -O - | egrep '/.*/.*/.*tar.gz' -o) --output wg-dashboard.tar.gz
 # create directory for dashboard
 mkdir -p wg-dashboard
 # unzip wg-dashboard
@@ -110,27 +59,13 @@ systemctl enable wg-dashboard
 # start wg-dashboard service
 systemctl start wg-dashboard
 
-# enable port 22 in firewall for ssh
-# ufw allow 22
-# enable firewall
-# ufw --force enable
-# enable port 58210 in firewall for wireguard
-# ufw allow 58210
-# enable port 53 in firewall for dns
-# ufw allow in on wg0 to any port 53
-
 # make and enter coredns folder
 mkdir -p /etc/coredns
 cd /etc/coredns
-if [[ "$(lsb_release -is)" == "Raspbian" ]]; then
+
+if [[ "$(lsb_release -is)" == "Arch" ]]; then
 	# download coredns
-	curl -L https://github.com/coredns/coredns/releases/download/v1.5.1/coredns_1.5.1_linux_arm.tgz --output coredns.tgz
-elif [[ "$(lsb_release -is)" == "Ubuntu" ]]; then
-	# download coredns
-	curl -L https://github.com/coredns/coredns/releases/download/v1.5.1/coredns_1.5.1_linux_amd64.tgz --output coredns.tgz
-elif [[ "$(lsb_release -is)" == "Debian" ]]; then
-	# download coredns
-	curl -L https://github.com/coredns/coredns/releases/download/v1.5.1/coredns_1.5.1_linux_amd64.tgz --output coredns.tgz
+	curl -L https://github.com/coredns/coredns/releases/download/v1.7.0/coredns_1.7.0_linux_amd64.tgz --output coredns.tgz
 fi
 # unzip and delete tar
 tar -xzf coredns.tgz
